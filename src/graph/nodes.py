@@ -21,21 +21,20 @@ class Nodes:
     
     @staticmethod
     def should_continue(state: State) -> Literal["tool_node", "agent_writer"]:
-
-        messages = state["messages"]
+        messages = state.messages
+        
+        if not messages:
+            return "agent_writer"
+        
         last_message = messages[-1]
-
-        if last_message.tool_calls:
+        
+        # Se tem tool_calls, executa tools
+        if getattr(last_message, 'tool_calls', None):
             return "tool_node"
-
+        
         return "agent_writer"
     
     @staticmethod
-    def tool_node(state: dict):
-
-        result = []
-        for tool_call in state["messages"][-1].tool_calls:
-            observation = Tools.tool_node.invoke(tool_call["args"])
-            result.append(ToolMessage(content=observation, tool_call_id=tool_call["id"]))
-
-        return {"messages": result}
+    def tool_node(state: State):
+        # ToolNode já processa automaticamente
+        return Tools.tool_node.invoke({"messages": [state.messages[-1]]})

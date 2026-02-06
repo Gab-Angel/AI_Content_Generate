@@ -11,7 +11,7 @@ load_dotenv()
 
 
 llm_groq = ChatGroq(
-    model="meta-llama/llama-4-maverick-17b-128e-instruct",
+    model="llama-3.3-70b-versatile",
     api_key=os.getenv("GROQ_API_KEY"),
     temperature=0
 )
@@ -20,31 +20,43 @@ search_prompt = PromptTemplate.from_template(human_prompt_search)
 writer_prompt = PromptTemplate.from_template(human_prompt_writer)
 
 def search_agent(state, llm_model):
-    topic = state['topic']
-    idea = state['idea']
+    print('🤖 SEARCH AGENT...')
 
-    prompt_search = search_prompt.format(topic=topic, idea=idea)
-
-    messages = [
-        SystemMessage(content=system_prompt_search),
-        HumanMessage(content=prompt_search),
-    ]
-
-    structured_llm = llm_model.with_structured_output(ResearchResult)
-
-    response = structured_llm.invoke(messages)
-
-    return {"result_research": response}
+    topic = state.topic 
+    idea = state.idea
+    messages = state.messages or []
+    
+    # Primeira execução - chama tools
+    if not messages:
+        prompt_search = search_prompt.format(topic=topic, idea=idea)
+        
+        messages = [
+            SystemMessage(content=system_prompt_search),
+            HumanMessage(content=prompt_search),
+        ]
+        
+        response = llm_model.invoke(messages)
+        return {"messages": [response]}
+    
+    # Segunda+ execução - estrutura resultado
+    else:
+        structured_llm = llm_model.with_structured_output(ResearchResult)
+        
+        instruction = HumanMessage(content="Estruture os resultados da pesquisa")
+        response = structured_llm.invoke(messages + [instruction])
+        
+        return {"result_research": response}
 
 def writer_agent(state, llm_model):
-    
-    type_post = state['type_post']
-    tone = state['tone']
-    qtd_slides = state['slides']
-    research = state['result_research']
+    print('🤖 WRITER AGENT...')
+
+    type_post = state.type_post
+    tone = state.tone
+    qtd_slides = state.slides
+    research = state.result_research
     
 
-    prompt_writer = search_prompt.format(
+    prompt_writer = writer_prompt.format(
         type_post=type_post,
         tone = tone,
         slides = qtd_slides,
@@ -60,36 +72,5 @@ def writer_agent(state, llm_model):
 
     response = structured_llm.invoke(messages)
 
-    
-    return response 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-if __name__ == '__main__':
-
-    from src.graph.tools import Tools
-
-    entrada = {
-        'topic': "Inteligencia Artificial",
-        'idea': "Uma pesquisa sobre como ela está afetando os negócios"
-        }
-    
-    result = search_agent(state=entrada,llm_model=Tools.llm_with_tools )
-    print(result)
-
-
-# Parei no output estruturado
-# Preciso criar o graph para a tool funcionar
-# Preciso criar o agent_writer
+    return {"final_report": response}

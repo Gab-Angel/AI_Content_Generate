@@ -11,18 +11,23 @@ load_dotenv()
 TAVILY_API_KEY = os.getenv('TAVILY_API_KEY')
 
 class Tools:
-    @tool('web_search',description="Use essa tool para inserir a query par realizar uma pesquisa")
+    @tool('web_search', description="Use essa tool para inserir a query para realizar uma pesquisa")
     def web_search(query: str):
-
         client = TavilyClient(api_key=TAVILY_API_KEY)
         response = client.search(
             query=query,
+            search_depth='advanced',
+            topic="news",
+            days=30,
             max_results=1,
+            include_answer=True,
+            include_raw_content=False
         )
-        print('=======================================')
+
+        print('=' * 40)
         print(response)
-        print('=======================================')
-        return response 
+        print('=' * 40)
+        return response
     
 
     tool_search = [

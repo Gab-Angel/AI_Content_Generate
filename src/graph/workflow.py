@@ -1,7 +1,7 @@
 from src.graph.nodes import Nodes
 from langgraph.graph import END, StateGraph
 from src.graph.states import State
-from IPython.display import Image, display
+
 
 workflow = StateGraph(State)
 
@@ -22,4 +22,6 @@ workflow.add_edge("agent_writer", END)
 
 graph = workflow.compile()
 
-display(Image(graph.get_graph(xray=True).draw_mermaid_png()))
+def visualize_graph():
+    from IPython.display import Image, display
+    display(Image(graph.get_graph(xray=True).draw_mermaid_png()))
