@@ -24,7 +24,7 @@ class State(BaseModel):
     type_post: Literal["carousel", "description", "stories", "video"]
     topic: str
     idea: str
-    tone: Literal["professional", "happy", "serious"]
+    tone: Literal["professional", "educational", "confident", "friendly", "inspirational", "serious"]
     slides: Optional[int] = None  
     result_research: Optional[ResearchResult] = None
     final_report: Optional[FinalReport] = None
