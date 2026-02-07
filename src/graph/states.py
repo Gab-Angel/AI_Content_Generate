@@ -5,7 +5,7 @@ from typing import Annotated
 from langgraph.graph import add_messages
 
 class ResearchResult(BaseModel):
-    sumary: str
+    summary: str
     key_points: List[str]
     sources: Optional[List[str]] = None
     insights: Optional[List[str]] = None

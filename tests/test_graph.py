@@ -10,9 +10,9 @@ def test_graph():
     input_state = {
         'type_post': 'carousel',
         'topic': 'Inteligência Artificial',
-        'idea': 'Como IA está transformando pequenos negócios',
+        'idea': 'Novo clawbot, como ele está mudando o mercado?',
         'tone': 'professional',
-        'slides': 5,
+        'slides': 3,
         'messages': []
     }
     
