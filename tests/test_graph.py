@@ -8,11 +8,11 @@ def test_graph():
     """Teste completo do workflow"""
     
     input_state = {
-        'type_post': 'carousel',
-        'topic': 'Inteligência Artificial',
-        'idea': 'Novo clawbot, como ele está mudando o mercado?',
+        'type_post': 'description',
+        'topic': 'Carros',
+        'idea': 'dilema dos carros eletricos',
         'tone': 'professional',
-        'slides': 3,
+        'slides': 0,
         'messages': []
     }
     
@@ -32,3 +32,4 @@ def test_graph():
 
 if __name__ == "__main__":
     test_graph()
+   

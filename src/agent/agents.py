@@ -1,6 +1,8 @@
 from langchain_core.prompts import PromptTemplate
 from src.graph.states import ResearchResult, FinalReport
 from langchain_groq import ChatGroq
+#from langchain_openai import ChatOpenAI
+from langchain_cerebras import ChatCerebras
 from langchain_core.messages import SystemMessage, HumanMessage
 from src.prompts.prompt_search import system_prompt_search, human_prompt_search
 from src.prompts.prompt_writer import system_prompt_writer, human_prompt_writer
@@ -10,11 +12,24 @@ import os
 load_dotenv()
 
 
-llm_groq = ChatGroq(
+"""llm = ChatGroq(
     model="llama-3.3-70b-versatile",
     api_key=os.getenv("GROQ_API_KEY"),
     temperature=0
-)
+)"""
+
+"""llm = ChatOpenAI(
+    model='gpt-4.1-mini',
+    api_key=os.getenv("OPENAI_API_KEY"),
+    temperature=0
+)"""
+
+
+llm = ChatCerebras(
+    model="gpt-oss-120b",
+    api_key=os.getenv('CEREBRAS_API_KEY'),
+    temperature=0
+    )
 
 search_prompt = PromptTemplate.from_template(human_prompt_search)
 writer_prompt = PromptTemplate.from_template(human_prompt_writer)

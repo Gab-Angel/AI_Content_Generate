@@ -7,7 +7,7 @@ from langgraph.graph import add_messages
 class ResearchResult(BaseModel):
     summary: str
     key_points: List[str]
-    sources: Optional[List[str]] = None
+    sources: List[str] = None
     insights: Optional[List[str]] = None
 
 class FinalReport(BaseModel):

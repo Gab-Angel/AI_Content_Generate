@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Content Generator | Criação de Conteúdo para Redes Sociais</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="app">
+        <header class="header">
+            <h1 class="logo">
+                <span class="logo-icon">✦</span>
+                AI Content Generator
+            </h1>
+            <p class="tagline">Crie conteúdo para redes sociais com Inteligência Artificial</p>
+        </header>
+
+        <main class="main">
+            <section class="form-section card">
+                <h2>Configurações do Conteúdo</h2>
+                <form id="generateForm" class="form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="type_post">Tipo de Post</label>
+                            <select id="type_post" name="type_post" required>
+                                <option value="carousel">Carrossel</option>
+                                <option value="description">Descrição</option>
+                                <option value="stories">Stories</option>
+                                <option value="video">Vídeo</option>
+                            </select>
+                        </div>
+                        <div class="form-group slides-group" id="slidesGroup">
+                            <label for="slides">Quantidade de Slides</label>
+                            <input type="number" id="slides" name="slides" min="1" max="20" value="3" placeholder="3">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="topic">Tópico</label>
+                        <input type="text" id="topic" name="topic" required placeholder="Ex: Inteligência Artificial">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="idea">Ideia / Ângulo</label>
+                        <textarea id="idea" name="idea" rows="4" required placeholder="Descreva o ângulo ou abordagem desejada para o conteúdo..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="tone">Tom</label>
+                        <select id="tone" name="tone" required>
+                            <option value="professional">Profissional</option>
+                            <option value="educational">Educacional</option>
+                            <option value="confident">Confiante</option>
+                            <option value="friendly">Amigável</option>
+                            <option value="inspirational">Inspirador</option>
+                            <option value="serious">Sério</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" id="submitBtn" class="btn btn-primary">
+                        <span class="btn-text">Gerar Conteúdo</span>
+                        <span class="btn-loader" aria-hidden="true">
+                            <span class="spinner"></span>
+                            Processando...
+                        </span>
+                    </button>
+                </form>
+            </section>
+
+            <div id="successBanner" class="success-banner" role="status" hidden>
+                <span class="success-icon" aria-hidden="true">✓</span>
+                <span class="success-message">Conteúdo gerado com sucesso!</span>
+            </div>
+
+            <div class="errors-toolbar" id="errorsToolbar" hidden>
+                <span class="errors-toolbar-label">Mensagens de erro</span>
+                <button type="button" id="toggleErrorsBtn" class="btn-toggle-errors" aria-expanded="false">
+                    <span class="toggle-errors-text">Mostrar erros</span>
+                </button>
+            </div>
+
+            <div id="errorBanner" class="error-banner" role="alert" hidden>
+                <span class="error-icon" aria-hidden="true">ℹ</span>
+                <span class="error-message"></span>
+                <button type="button" class="error-dismiss" aria-label="Fechar">×</button>
+            </div>
+
+            <section id="resultsSection" class="results-section" hidden>
+                <div class="results-grid">
+                    <article class="result-card card" id="researchCard">
+                        <h3>Pesquisa Realizada</h3>
+                        <div id="researchContent" class="result-content"></div>
+                    </article>
+                    <article class="result-card card" id="contentCard">
+                        <h3>Conteúdo Gerado</h3>
+                        <div id="contentResult" class="result-content"></div>
+                    </article>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <p>Powered by LangGraph + Groq | OpenAI | Cerebras + Tavily</p>
+        </footer>
+    </div>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
